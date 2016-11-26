@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+ <!-- 
+ 
+  create maven eclipse debug profile 
+  
+  Name: exec-java redisson-test-01 
+  Base directory: ${workspace_loc:/redisson-test-01}
+  Goal: exec:java -Dexec.mainClass="org.test.redisson.Application" -Dexec.args=""  
+  
+  Remember!!!! In Tab Source Add the source project directory 
+ 
+ -->
+ 
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>redisson-test-01</groupId>
+  <artifactId>redisson-test-01</artifactId>
+  <version>0.0.1</version>
+  
+  <packaging>jar</packaging>
+
+  <name>Redisson test 01</name>
+  <description>Redisson test 01</description>
+  
+  <properties>
+    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven-dependency.version>2.1</maven-dependency.version>
+    <maven-compiler.version>2.3.2</maven-compiler.version>
+    <java.version>1.8</java.version>
+    <maven-clean.version>3.0.0</maven-clean.version>
+    
+    <target.finalName>${project.artifactId}</target.finalName>
+    <target.mainClass>org.test.redisson.Application</target.mainClass>
+
+  </properties>
+  
+  <dependencies>
+  
+    <!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
+    <dependency>
+    
+       <groupId>org.redisson</groupId>
+       <artifactId>redisson</artifactId>
+       <version>3.1.0</version>
+    
+    </dependency>
+  
+  </dependencies>
+
+  <build>
+
+    <finalName>${target.finalName}</finalName>
+
+    <plugins>
+
+      <!-- Compile java -->
+      <plugin>
+
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
+
+        <configuration>
+
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+
+        </configuration>
+
+      </plugin>
+
+      <!-- Make this jar executable -->
+      <plugin>
+
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.6</version>
+
+        <configuration>
+
+          <excludes>
+
+            <exclude>**/log4j.properties</exclude>
+
+          </excludes>
+
+          <archive>
+
+            <manifest>
+
+              <addClasspath>true</addClasspath>
+              <mainClass>${target.mainClass}</mainClass>
+              <classpathPrefix>libs/</classpathPrefix>
+
+            </manifest>
+
+          </archive>
+
+        </configuration>
+
+      </plugin>
+
+      <!-- Copy project dependency -->
+      <plugin>
+
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.5.1</version>
+
+        <executions>
+
+          <execution>
+
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+
+            <goals>
+              
+              <goal>copy-dependencies</goal>
+      
+            </goals>
+
+            <configuration>
+
+              <!-- exclude junit, we need runtime dependency only -->
+              <includeScope>runtime</includeScope>
+              <outputDirectory>${project.build.directory}/libs/</outputDirectory>
+
+            </configuration>
+
+          </execution>
+
+        </executions>
+
+      </plugin>
+
+    </plugins>
+
+  </build>
+    
+</project>
